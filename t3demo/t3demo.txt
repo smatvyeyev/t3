@@ -97,3 +97,10 @@ installation with asciinema.org account by opening the following link:
 docker tag e0172ee6e1a4 gcr.io/k8-3s/t3demo:v1.0.0
 docker push gcr.io/k8-3s/t3demo:v1.0.0
 gcloud auth login
+
+947983e4b14b
+docker tag 947983e4b14b gcr.io/k8-3s-388721/t3demo:v1.0.0
+docker push gcr.io/k8-3s-388721/t3demo:v1.0.0
+gcloud auth login
+gcloud config set project k8-3s-388721
+gcloud auth configure-docker
