@@ -238,7 +238,119 @@ Events:
   Warning  Failed          2m37s (x7 over 3m42s)  kubelet            Error: ImagePullBackOff
 @smatvyeyev ➜ /workspaces/t3 (main) $ 
 ----------------------------------------
+kubectl describe pod/t3demo-86d54445f8-tnqmm
+
+https://stackoverflow.com/questions/70728223/can-not-pull-any-image-in-minikube
+minikube image load gcr.io/k8-3s-388721/t3demo:v1.0.0 NB!!!!
 
 minikube delete --all
 
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl logs deploy/t3demo 
+listening on [::]:8080 ...
+kubectl exec -it deploy/t3demo -- sh
+
 kubectl expose deployment hello-minikube --type=NodePort --port=8080
+
+kubectl expose deploy/t3demo --port 80 --target-port 8080
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl get svc
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP   21m
+t3demo       ClusterIP   10.103.1.228   <none>        80/TCP    38s
+
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl get ep
+NAME         ENDPOINTS           AGE
+kubernetes   192.168.49.2:8443   22m
+t3demo       10.244.0.6:8080     97s
+
+kubectl port-forward svc/t3demo 8088:80&
+
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl port-forward svc/t3demo 8088:80&
+[1] 52786
+@smatvyeyev ➜ /workspaces/t3 (main) $ Forwarding from 127.0.0.1:8088 -> 8080
+Forwarding from [::1]:8088 -> 8080
+Handling connection for 8088
+
+@smatvyeyev ➜ /workspaces/t3 (main) $ curl 127.0.0.1:8088
+Handling connection for 8088
+ Version 1.0.0
+
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl logs deploy/t3demo 
+listening on [::]:8080 ...
+connect to [::ffff:127.0.0.1]:8080 from localhost:55298 ([::ffff:127.0.0.1]:55298)
+GET /?vscodeBrowserReqId=1685879736154 HTTP/1.1
+Host: 127.0.0.1:8088
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4_0) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.78.2 Chrome/108.0.5359.215 Electron/22.5.2 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: iframe
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-GB
+
+listening on [::]:8080 ...
+connect to [::ffff:127.0.0.1]:8080 from localhost:47206 ([::ffff:127.0.0.1]:47206)
+GET / HTTP/1.1
+Host: 127.0.0.1:8088
+User-Agent: curl/7.68.0
+Accept: */*
+
+listening on [::]:8080 ...
+connect to [::ffff:127.0.0.1]:8080 from localhost:47262 ([::ffff:127.0.0.1]:47262)
+GET /?vscodeBrowserReqId=1685879858661 HTTP/1.1
+Host: 127.0.0.1:8088
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4_0) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.78.2 Chrome/108.0.5359.215 Electron/22.5.2 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: iframe
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-GB
+
+listening on [::]:8080 ...
+connect to [::ffff:127.0.0.1]:8080 from localhost:41162 ([::ffff:127.0.0.1]:41162)
+GET /?vscodeBrowserReqId=1685879861795 HTTP/1.1
+Host: 127.0.0.1:8088
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4_0) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.78.2 Chrome/108.0.5359.215 Electron/22.5.2 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: iframe
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-GB
+
+listening on [::]:8080 ...
+connect to [::ffff:127.0.0.1]:8080 from localhost:41174 ([::ffff:127.0.0.1]:41174)
+GET /?vscodeBrowserReqId=1685879863027 HTTP/1.1
+Host: 127.0.0.1:8088
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4_0) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.78.2 Chrome/108.0.5359.215 Electron/22.5.2 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: iframe
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-GB
+
+listening on [::]:8080 ...
+connect to [::ffff:127.0.0.1]:8080 from localhost:37970 ([::ffff:127.0.0.1]:37970)
+GET /?vscodeBrowserReqId=1685879876811 HTTP/1.1
+Host: 127.0.0.1:8088
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 13_4_0) AppleWebKit/537.36 (KHTML, like Gecko) Code/1.78.2 Chrome/108.0.5359.215 Electron/22.5.2 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Dest: iframe
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-GB
+
+listening on [::]:8080 ...
+
