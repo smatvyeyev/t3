@@ -104,3 +104,141 @@ docker push gcr.io/k8-3s-388721/t3demo:v1.0.0
 gcloud auth login
 gcloud config set project k8-3s-388721
 gcloud auth configure-docker
+
+in IDE search command palete minikube then start
+smatvyeyev ➜ /workspaces/t3 (main) $ docker ps
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED         STATUS         PORTS                                                                                                                                  NAMES
+6103cc4668ca   gcr.io/k8s-minikube/kicbase:v0.0.39   "/usr/local/bin/entr…"   8 minutes ago   Up 8 minutes   127.0.0.1:32772->22/tcp, 127.0.0.1:32771->2376/tcp, 127.0.0.1:32770->5000/tcp, 127.0.0.1:32769->8443/tcp, 127.0.0.1:32768->32443/tcp   minikube
+kubectl get pods -A
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl get pods -A
+NAMESPACE     NAME                               READY   STATUS    RESTARTS      AGE
+kube-system   coredns-787d4945fb-dnknk           1/1     Running   0             10m
+kube-system   etcd-minikube                      1/1     Running   0             11m
+kube-system   kube-apiserver-minikube            1/1     Running   0             11m
+kube-system   kube-controller-manager-minikube   1/1     Running   0             11m
+kube-system   kube-proxy-5cqlx                   1/1     Running   0             10m
+kube-system   kube-scheduler-minikube            1/1     Running   0             11m
+kube-system   storage-provisioner                1/1     Running   1 (10m ago)   11m
+
+@smatvyeyev ➜ /workspaces/t3 (main) $ minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+kubectl config current-context
+
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl version
+WARNING: This version information is deprecated and will be replaced with the output from kubectl version --short.  Use --output=yaml|json to get the full version.
+Client Version: version.Info{Major:"1", Minor:"26", GitVersion:"v1.26.4", GitCommit:"f89670c3aa4059d6999cb42e23ccb4f0b9a03979", GitTreeState:"clean", BuildDate:"2023-04-12T12:13:53Z", GoVersion:"go1.19.8", Compiler:"gc", Platform:"linux/amd64"}
+Kustomize Version: v4.5.7
+Server Version: version.Info{Major:"1", Minor:"26", GitVersion:"v1.26.3", GitCommit:"9e644106593f3f4aa98f8a84b23db5fa378900bd", GitTreeState:"clean", BuildDate:"2023-03-15T13:33:12Z", GoVersion:"go1.19.7", Compiler:"gc", Platform:"linux/amd64"}
+
+
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl version
+WARNING: This version information is deprecated and will be replaced with the output from kubectl version --short.  Use --output=yaml|json to get the full version.
+Client Version: version.Info{Major:"1", Minor:"26", GitVersion:"v1.26.4", GitCommit:"f89670c3aa4059d6999cb42e23ccb4f0b9a03979", GitTreeState:"clean", BuildDate:"2023-04-12T12:13:53Z", GoVersion:"go1.19.8", Compiler:"gc", Platform:"linux/amd64"}
+Kustomize Version: v4.5.7
+Server Version: version.Info{Major:"1", Minor:"26", GitVersion:"v1.26.3", GitCommit:"9e644106593f3f4aa98f8a84b23db5fa378900bd", GitTreeState:"clean", BuildDate:"2023-03-15T13:33:12Z", GoVersion:"go1.19.7", Compiler:"gc", Platform:"linux/amd64"}
+-----------------
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl get all -A
+NAMESPACE     NAME                                   READY   STATUS    RESTARTS      AGE
+kube-system   pod/coredns-787d4945fb-dnknk           1/1     Running   0             24m
+kube-system   pod/etcd-minikube                      1/1     Running   0             24m
+kube-system   pod/kube-apiserver-minikube            1/1     Running   0             24m
+kube-system   pod/kube-controller-manager-minikube   1/1     Running   0             24m
+kube-system   pod/kube-proxy-5cqlx                   1/1     Running   0             24m
+kube-system   pod/kube-scheduler-minikube            1/1     Running   0             24m
+kube-system   pod/storage-provisioner                1/1     Running   1 (23m ago)   24m
+
+NAMESPACE     NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                  AGE
+default       service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP                  24m
+kube-system   service/kube-dns     ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,9153/TCP   24m
+
+NAMESPACE     NAME                        DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+kube-system   daemonset.apps/kube-proxy   1         1         1       1            1           kubernetes.io/os=linux   24m
+
+NAMESPACE     NAME                      READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system   deployment.apps/coredns   1/1     1            1           24m
+
+NAMESPACE     NAME                                 DESIRED   CURRENT   READY   AGE
+kube-system   replicaset.apps/coredns-787d4945fb   1         1         1       24m
+--------------------------
+
+
+kubectl create deployment t3demo --image=gcr.io/k8-3s-388721/t3demo:v1.0.0
+kubectl get deploy -o wide
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl get deploy -o wide
+NAME     READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                              SELECTOR
+t3demo   0/1     1            0           57s   t3demo       gcr.io/k8-3s-388721/t3demo:v1.0.0   app=t3demo
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl get po
+NAME                      READY   STATUS             RESTARTS   AGE
+t3demo-86d54445f8-ck579   0/1     ImagePullBackOff   0          78s
+@smatvyeyev ➜ /workspaces/t3 (main) $ 
+
+
+---------------------------------
+@smatvyeyev ➜ /workspaces/t3 (main) $ kubectl describe pod/t3demo-86d54445f8-tnqmm
+Name:             t3demo-86d54445f8-tnqmm
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             minikube/192.168.49.2
+Start Time:       Sun, 04 Jun 2023 11:30:41 +0000
+Labels:           app=t3demo
+                  pod-template-hash=86d54445f8
+Annotations:      <none>
+Status:           Pending
+IP:               10.244.0.5
+IPs:
+  IP:           10.244.0.5
+Controlled By:  ReplicaSet/t3demo-86d54445f8
+Containers:
+  t3demo:
+    Container ID:   
+    Image:          gcr.io/k8-3s-388721/t3demo:v1.0.0
+    Image ID:       
+    Port:           <none>
+    Host Port:      <none>
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-4296c (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-4296c:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason          Age                    From               Message
+  ----     ------          ----                   ----               -------
+  Normal   Scheduled       3m46s                  default-scheduler  Successfully assigned default/t3demo-86d54445f8-tnqmm to minikube
+  Normal   SandboxChanged  3m41s (x2 over 3m43s)  kubelet            Pod sandbox changed, it will be killed and re-created.
+  Normal   Pulling         3m3s (x3 over 3m45s)   kubelet            Pulling image "gcr.io/k8-3s-388721/t3demo:v1.0.0"
+  Warning  Failed          3m2s (x3 over 3m44s)   kubelet            Failed to pull image "gcr.io/k8-3s-388721/t3demo:v1.0.0": rpc error: code = Unknown desc = Error response from daemon: unauthorized: You don't have the needed permissions to perform this operation, and you may have invalid credentials. To authenticate your request, follow the steps in: https://cloud.google.com/container-registry/docs/advanced-authentication
+  Warning  Failed          3m2s (x3 over 3m44s)   kubelet            Error: ErrImagePull
+  Normal   BackOff         2m37s (x7 over 3m42s)  kubelet            Back-off pulling image "gcr.io/k8-3s-388721/t3demo:v1.0.0"
+  Warning  Failed          2m37s (x7 over 3m42s)  kubelet            Error: ImagePullBackOff
+@smatvyeyev ➜ /workspaces/t3 (main) $ 
+----------------------------------------
+
+minikube delete --all
+
+kubectl expose deployment hello-minikube --type=NodePort --port=8080
