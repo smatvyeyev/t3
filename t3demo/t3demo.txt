@@ -353,4 +353,13 @@ Accept-Encoding: gzip, deflate, br
 Accept-Language: en-GB
 
 listening on [::]:8080 ...
+-------------------------------
+wget https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb
+sudo apt install ./dive_0.9.2_linux_amd64.deb
 
+dive --ci --lowestEfficiency=0.9 947983e4b14b
+dive --ci --lowestEfficiency=0.9 gcr.io/k8-3s-388721/t3demo:v1.0.0
+
+https://asciinema.org/~smatvyeyev
+asciinema rec
+When you're ready to finish simply exit the shell either by typing exit or hitting Ctrl-D.
