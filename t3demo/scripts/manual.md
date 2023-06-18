@@ -3,14 +3,15 @@ Plugin can be used to retrieve resource utilization of pods or nodes in your Kub
 
 ### Installation steps 
  Dowload file - *kubeplugin*
+ Rename to *kubectl-kubeplugin*
 
 To use a plugin, make the plugin executable: 
     ```
-    sudo chmod +x ./kubectl-foo
+    sudo chmod +x ./kubectl-kubeplugin
     ```
 Place it anywhere in your PATH:
     ```
-    sudo mv ./kubectl-foo /usr/local/bin
+    sudo mv ./kubectl-kubeplugin /usr/local/bin
     ```
 
 ### How to use plugin 
