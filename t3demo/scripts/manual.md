@@ -2,17 +2,24 @@
 Plugin can be used to retrieve resource utilization of pods or nodes in your Kubernetes cluster. Resource utilization is an important thing to monitor for Kubernetes cluster owners. In order to monitor resource utilization, you can keep track of things like CPU, Memory.
 
 ### Installation steps 
-a) Dowload file - kubeplugin
-b) To use a plugin, make the plugin executable: 
+ Dowload file - *kubeplugin*
+
+To use a plugin, make the plugin executable: 
+    ```
     sudo chmod +x ./kubectl-foo
-c) Place it anywhere in your PATH:
+    ```
+Place it anywhere in your PATH:
+    ```
     sudo mv ./kubectl-foo /usr/local/bin
+    ```
 
 ### How to use plugin 
 
 You may now invoke your plugin as a kubectl command:
-    kubectl kubeplugin <resourcetype> <namespace>
 
+    ```
+    kubectl kubeplugin <resourcetype> <namespace>
+    ```
 where:
 resourcetype - node or pod
 namespece -one of list : kubectl get namespacess
@@ -22,7 +29,7 @@ Output must be list of
 
 
 
-```python
+```
 ~ kubectl kubeplugin pod demo 
 Resource: pod, Namespace: demo, Name: ambassador-844d658479-4l2kr, CPU: 79m, Memory: 266Mi
 Resource: pod, Namespace: demo, Name: cache-8687c99dc4-p5qbz, CPU: 5m, Memory: 2Mi
